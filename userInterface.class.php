@@ -27,35 +27,35 @@ class userInterface extends render
      * @access protected
      * @var string
      */
-    protected $_uiLanguage;
+    private $_uiLanguage;
 
     /**
      * Protected var. stores theme definition for extjs.
      * @access protected
      * @var string
      */
-    protected $_uiTheme;
+    private $_uiTheme;
 
     /**
      * Protected var. stores object type
      * @access protected
      * @var string
      */
-    protected $_ObjectType = 'Viewport';
+    private $_ObjectType = 'Viewport';
 
     /**
      * Protected var. stores the object ID
      * @access protected
      * @var string
      */
-    protected $_ObjectId = null;
+    private $_ObjectId = null;
 
     /**
      * Protected var. stores viewport attributes
      * @access protected
      * @var array
      */
-    protected $_attributes = array();
+    private $_attributes = array();
 
     public function __construct()
     {
@@ -71,6 +71,11 @@ class userInterface extends render
         $id = uniqid(rand(), true);
 
         return $id;
+    }
+
+    private static function _addRegion($region)
+    {
+        krumo($region);
     }
 
     /**

@@ -18,42 +18,37 @@ namespace zPhpExt;
  * @subpackage classes
  */
 
-class userInterfaceRegions
+class userInterfaceRegions extends userInterface
 {
     /**
      * Protected var. stores object type
      * @access protected
      * @var string|southRegion northRegion eastRegion westRegion
      */
-    protected $_ObjectType = null;
+    private $_ObjectType = null;
 
     /**
      * Protected var. stores the object ID
      * @access protected
      * @var string
      */
-    protected $_ObjectId = null;
+    private $_ObjectId = null;
 
     /**
      * Protected var. stores viewport attributes
      * @access protected
      * @var array
      */
-    protected $_attributes = array();
+    private $_attributes = array();
+
     /**
-     * Protected var. stores items for viewport, usually: north, south, east, west regions
+     * Protected var. stores regions for viewport, usually: north, south, east, west regions
      * @access protected
      * @var array
      */
-    protected $_regions = array();
+    private $_regions = array();
 
-    protected $_region = array(
-        "id"        => null,
-        "position"  => "center",
-        "title"     => null,
-        "split"     => true,
-        "width"     => "auto",
-        "height"    => "auto");
+    private $_region = 'center';
 
     /**
      * Adds the corresponding extjs attribute to region object
@@ -62,8 +57,8 @@ class userInterfaceRegions
     {
         if(strpos($method, 'setAttribute') !== false)
         {
-            $extjsAttribute = lcfirst(substr_replace($method, '', 0, 12));
-            $this->_attributes[$extjsAttribute] = $attrValue;
+            $regionAttribute = lcfirst(substr_replace($method, '', 0, 12));
+            $this->regions[$this->_region][$this->_attributes[$extjsAttribute]] = $attrValue;
         }
         else
         {
@@ -93,41 +88,91 @@ class userInterfaceRegions
      * @param string $parent|parent object for new item
      * @param string $id
      */
-    private function _addRegion($region = 'center', $id)
+    private function _addNewRegion($id, $region = 'center')
     {
         // Check if requested region already exists
         if($this->_regionExists($region))
         {
-            error_log($region.' item for '.$id.' '.$this->ObjectType.
+            error_log($region.' region for '.$id.' '.$this->ObjectType.
                 ' already exists.');
         }
-
-        if(is_null($id) || empty($id))
+        else
         {
-            $id = $this->_getID();
+            if(is_null($id) || empty($id))
+            {
+                $id = $this->_getID();
+            }
+            $this->_regions[] = $region;
+            $this->_regions[$region]['id'] = $id;
+            $this::addRegion($this->_regions[$region]);
         }
+        
+    }
 
-        $this->_regions[] = $region;
+    private function _setRegion($region)
+    {
+        $this->_region = $region;
+    }
+
+    public function getNorthRegion()
+    {
+        $this->_setRegion('north');
+        return $this->_regions['north'];
+
+    }
+
+    public function getSouthRegion()
+    {
+        $this->_setRegion('south');
+        return $this->_regions['south'];
+    }
+
+    public function getEastRegion()
+    {
+        $this->_setRegion('east');
+        return $this->_regions['east'];
+    }
+
+    public function getWestRegion()
+    {
+        $this->_setRegion('west');
+        return $this->_regions['west'];
     }
 
     public function addNorthRegion($id)
     {
-
+        if(is_null($id) || empty($id))
+        {
+            $id = $this->_getID();
+        }
+        $this->_addNewRegion($id, 'north');
     }
 
     public function addSouthRegion($id)
     {
-
+        if(is_null($id) || empty($id))
+        {
+            $id = $this->_getID();
+        }
+        $this->_addNewRegion($id, 'south');
     }
 
     public function addEastRegion($id)
     {
-
+        if(is_null($id) || empty($id))
+        {
+            $id = $this->_getID();
+        }
+        $this->_addNewRegion($id, 'east');
     }
 
     public function addWestRegion($id)
     {
-
+        if(is_null($id) || empty($id))
+        {
+            $id = $this->_getID();
+        }
+        $this->_addNewRegion($id, 'west');
     }
 
 }
