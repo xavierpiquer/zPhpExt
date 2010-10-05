@@ -1,5 +1,4 @@
 <?php
-
 /**
  * zPhpExt. Easy and simplified ExtJS UI Wrapper
  *
@@ -18,32 +17,32 @@ namespace zPhpExt;
  * @subpackage classes
  */
 
-class userInterfaceRegions extends main
+class panel extends main
 {
     /**
      * Public var. stores object type
      * @access public
      * @var string
      */
-    public $itemType = 'region';
+    public $itemType = 'panel';
 
     /**
-     * Public var. stores region ID
+     * Public var. stores item ID
      * @access public
      * @var string
      */
     public $id = null;
 
     /**
-     * Public var. stores item for region
+     * Public var. stores items
      * @access public
      * @var array
      */
     public $items = array();
 
     /**
-     * Private var. stores region attributes
-     * @access private
+     * Public var. stores attributes
+     * @access public
      * @var array
      */
     public $attributes = array();
@@ -60,8 +59,8 @@ class userInterfaceRegions extends main
     {
         if(strpos($method, 'setAttribute') !== false)
         {
-            $regionAttribute = lcfirst(substr_replace($method, '', 0, 12));
-            $this->attributes[$regionAttribute] = $attrValue;
+            $itemAttribute = lcfirst(substr_replace($method, '', 0, 12));
+            $this->attributes[$itemAttribute] = $attrValue;
         }
         else
         {
@@ -73,7 +72,7 @@ class userInterfaceRegions extends main
     {
         $this->items[] = $item;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -88,7 +87,7 @@ class userInterfaceRegions extends main
     {
         return $this->items;
     }
-    
+
     /**
      * Return extjs object type
      * @return string

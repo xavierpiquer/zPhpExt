@@ -11,8 +11,6 @@
 
 namespace zPhpExt;
 
-require_once("render.class.php");
-
 /**
  * Main class. Extjs viewport construction.
  *
@@ -20,62 +18,55 @@ require_once("render.class.php");
  * @subpackage classes
  */
 
-class userInterface extends render
+class userInterface extends singletonModel
 {
     /**
-     * Protected var. stores language for extjs framework messages.
-     * @access protected
+     * Public var. stores object type
+     * @access public
      * @var string
      */
-    private $_uiLanguage;
+    public $itemType = 'viewport';
 
     /**
-     * Protected var. stores theme definition for extjs.
-     * @access protected
+     * Public var. stores the object ID
+     * @access public
      * @var string
      */
-    private $_uiTheme;
+    public $id = null;
 
     /**
-     * Protected var. stores object type
-     * @access protected
-     * @var string
-     */
-    private $_ObjectType = 'Viewport';
-
-    /**
-     * Protected var. stores the object ID
-     * @access protected
-     * @var string
-     */
-    private $_ObjectId = null;
-
-    /**
-     * Protected var. stores viewport attributes
+     * Private var. stores viewport attributes
      * @access protected
      * @var array
      */
     private $_attributes = array();
 
-    public function __construct()
-    {
-        $this->addRegion();
-    }
+    /**
+     * Public var. stores language for extjs framework messages.
+     * @access protected
+     * @var string
+     */
+    static public $_uiLanguage;
 
     /**
-     * Create new unique ID for extjs widget id's
-     * @return string $id
+     * Public var. stores theme definition for extjs.
+     * @access protected
+     * @var string
      */
-    protected function _getID()
-    {
-        $id = uniqid(rand(), true);
+    static public $_uiTheme;
 
-        return $id;
-    }
+    /**
+     * Public var. stores object regions for viewport
+     * @access public
+     * @var array
+     */
+    public $regions = array();
 
-    private static function _addRegion($region)
+    
+    public function __construct($id = null)
     {
-        krumo($region);
+        $this->id = $this->_getId($this->itemType, $id);
+        //$this->addRegion();
     }
 
     /**
@@ -85,9 +76,9 @@ class userInterface extends render
      */
     public function setLanguage($value = 'en')
     {
-        $this->_uiLanguage = $value;
+        self::$_uiLanguage = $value;
 
-        return $this->_uiLanguage;
+        return true;
     }
 
     /**
@@ -97,9 +88,9 @@ class userInterface extends render
      */
     public function setTheme($value = 'blue')
     {
-        $this->_uiTheme = $value;
+        self::$_uiTheme = $value;
 
-        return $this->_uiTheme;
+        return true;
     }
 
     /**
@@ -120,33 +111,115 @@ class userInterface extends render
 
     /**
      * Return extjs language
+     * @return string
      */
     public function getLanguage()
     {
-        return $this->_uiLanguage;
+        return $self::uiLanguage;
     }
 
     /**
      * Return extjs theme
+     * @return string
      */
     public function getTheme()
     {
-        return $this->_uiTheme;
+        return $self::uiTheme;
     }
 
     /**
      * Return extjs object type
+     * @return string
      */
-    public function getObjectType($id)
+    public function getObjectType()
     {
-        return $this->_ObjectType;
+        return $this->itemType;
     }
 
     /**
      * Return extjs object attributes
+     * @return array
      */
     public function getAttributes()
     {
         return $this->_attributes;
     }
+
+    /**
+     * Add a new region in viewport
+     * @param string $parent|parent object for new item
+     * @param string $id
+     */
+    private function _addRegion($region, $nsea = 'center')
+    {      
+        $this->regions[$nsea] = $region;
+
+        return true;
+    }
+    
+    public function setNorthRegion($region = null)
+    {
+        krumo($region);
+        if(is_null($region) || empty($region))
+        {
+            $region = new userInterfaceRegions();
+        }
+        $this->_addRegion($region, 'north');
+
+        return true;
+    }
+
+    public function setSouthRegion($region = null)
+    {
+        if(is_null($region) || empty($region))
+        {
+            $region = new userInterfaceRegions();
+        }
+        $this->_addRegion($region, 'south');
+    }
+
+    public function setEastRegion($region = null)
+    {
+        if(is_null($region) || empty($region))
+        {
+            $region = new userInterfaceRegions();
+        }
+        $this->_addRegion($region, 'east');
+    }
+
+    public function setWestRegion($region = null)
+    {
+        if(is_null($region) || empty($region))
+        {
+            $region = new userInterfaceRegions();
+        }
+        $this->_addRegion($region, 'west');
+    }
+
+    public function getRegions()
+    {
+        return $this->regions;
+    }
+
+    public function getNorthRegion()
+    {
+        return $this->regions['north'];
+
+    }
+
+    public function getSouthRegion()
+    {
+        return $this->regions['south'];
+    }
+
+    public function getEastRegion()
+    {
+        return $this->regions['east'];
+    }
+
+    public function getWestRegion()
+    {
+        return $this->regions['west'];
+    }
+
 }

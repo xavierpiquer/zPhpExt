@@ -18,7 +18,7 @@ namespace zPhpExt;
  * @subpackage classes
  */
 
-class singletonModel
+class singletonModel extends main
 {
     /**
      * Instance of singleton's class

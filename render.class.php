@@ -11,8 +11,6 @@
 
 namespace zPhpExt;
 
-require_once("singletonModel.class.php");
-
 /**
  * Renderization class
  *
@@ -20,8 +18,15 @@ require_once("singletonModel.class.php");
  * @subpackage classes
  */
 
-class render extends singletonModel
+class renderObject
 {
+    /**
+     * Private var. stores the object passed to be rendered
+     * @access private
+     * @var object
+     */
+    private $_objectToRender = null;
+
     /**
      * Private var. stores result text
      * @access private
@@ -29,6 +34,17 @@ class render extends singletonModel
      */
     private $_result = array();
     
+    /**
+     * Get the object and assign it to a private property
+     * @param string $sentence
+     * @return bool|true false
+     */
+    public function  __construct($object)
+    {
+        $this->_objectToRender = $object;
+
+    }
+
     /**
      * Add new sentences to final text result
      * @param string $sentence
@@ -40,9 +56,8 @@ class render extends singletonModel
     }
 
     /**
-     * Add new sentences to final text result
-     * @param string $sentence
-     * @return bool|true false
+     * Get the Items of an object
+     * @return array of intems strcuture
      */
     private function _getObjectItems()
     {
