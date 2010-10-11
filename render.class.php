@@ -18,7 +18,7 @@ namespace zPhpExt;
  * @subpackage classes
  */
 
-class renderObject
+class userInterfaceRender
 {
     /**
      * Private var. stores the object passed to be rendered
@@ -28,7 +28,7 @@ class renderObject
     private $_objectToRender = null;
 
     /**
-     * Private var. stores result text
+     * Private var. stores result javascript
      * @access private
      * @var array
      */
@@ -39,7 +39,7 @@ class renderObject
      * @param string $sentence
      * @return bool|true false
      */
-    public function  __construct($object)
+    public function  __construct($object = null)
     {
         $this->_objectToRender = $object;
 
@@ -74,11 +74,11 @@ class renderObject
     }
 
     /**
-     * Return extjs code
+     * Static access to the class. Returns javascript code.
      */
-    public function render()
+    public static function render(userInterface $ui)
     {
-        $value = "Render Done!";
-        return $value;
+        $instance = new userInterfaceRender;
+        echo $instance->_parseObject();
     }
 }

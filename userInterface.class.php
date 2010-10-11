@@ -66,7 +66,8 @@ class userInterface extends singletonModel
     public function __construct($id = null)
     {
         $this->id = $this->_getId($this->itemType, $id);
-        //$this->addRegion();
+        // Adds main region (center)
+        $this->_addRegion(new userInterfaceRegion(), 'center');
     }
 
     /**
@@ -150,7 +151,7 @@ class userInterface extends singletonModel
      * @param string $parent|parent object for new item
      * @param string $id
      */
-    private function _addRegion($region, $nsea = 'center')
+    private function _addRegion(userInterfaceRegion $region, $nsea = 'center')
     {      
         $this->regions[$nsea] = $region;
 
@@ -162,7 +163,7 @@ class userInterface extends singletonModel
         krumo($region);
         if(is_null($region) || empty($region))
         {
-            $region = new userInterfaceRegions();
+            $region = new userInterfaceRegion();
         }
         $this->_addRegion($region, 'north');
 
@@ -173,7 +174,7 @@ class userInterface extends singletonModel
     {
         if(is_null($region) || empty($region))
         {
-            $region = new userInterfaceRegions();
+            $region = new userInterfaceRegion();
         }
         $this->_addRegion($region, 'south');
     }
@@ -182,7 +183,7 @@ class userInterface extends singletonModel
     {
         if(is_null($region) || empty($region))
         {
-            $region = new userInterfaceRegions();
+            $region = new userInterfaceRegion();
         }
         $this->_addRegion($region, 'east');
     }
@@ -191,7 +192,7 @@ class userInterface extends singletonModel
     {
         if(is_null($region) || empty($region))
         {
-            $region = new userInterfaceRegions();
+            $region = new userInterfaceRegion();
         }
         $this->_addRegion($region, 'west');
     }
@@ -222,4 +223,5 @@ class userInterface extends singletonModel
         return $this->regions['west'];
     }
 
+    
 }
