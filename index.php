@@ -2,6 +2,8 @@
 
 include("/var/www/krumo/class.krumo.php");
 
+require_once("templates/init.class.php");
+
 require_once("main.class.php");
 require_once("singletonModel.class.php");
 require_once("userInterface.class.php");
@@ -45,5 +47,7 @@ krumo($ui);
 
 //$xmlObject = new ObjectToXML($ui);
 
-\zPhpExt\userInterfaceRender::render($ui);
+$resultado = \zPhpExt\userInterfaceRender::render($ui);
+
+krumo($resultado);
 

@@ -12,7 +12,7 @@
 namespace zPhpExt;
 
 /**
- * Main class. Extjs viewport construction.
+ * Main class. Extjs region construction.
  *
  * @package zPhpExt
  * @subpackage classes
