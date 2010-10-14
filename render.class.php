@@ -27,9 +27,9 @@ class userInterfaceRender
      */
     private $_result = array();
 
-    public $imageUrl = '/';
+    public static $imageUrl = '/';
 
-    public $msgTarget = 'side';
+    public static $msgTarget = 'side';
     
     /**
      * Get the object and assign it to a private property
@@ -46,7 +46,7 @@ class userInterfaceRender
 
     private function _initialize()
     {
-        $jsCodeInit = \zPhpExt\templates\init::setInit($this->imageUrl, $this->msgTarget);
+        $jsCodeInit = \zPhpExt\templates\init::setInit(self::$imageUrl, self::$msgTarget);
         foreach($jsCodeInit as $jsCode)
         {
             $this->_addSentence($jsCode);

@@ -11,45 +11,33 @@
 namespace zPhpExt\templates;
 
 /**
- * Main class. Extjs viewport construction.
+ * Init template class. Parse init.temlate file.
  *
  * @package zPhpExt
- * @subpackage classes
+ * @subpackage templates
  */
 
 class init
 {
+    private $_match = array('|IMAGE_URL|', '|MSGTARGET|');
     private $_result = array();
+    public static $IMAGE_URL = null;
+    public static $MSGTARGET = null;
 
-    private function _setExtImageUrl($url)
+    public function __construct()
     {
-        array_push($this->_result, "Ext.BLANK_IMAGE_URL = '".$url."'");
+        array_walk($this->_match, $this->_replace);
+
+        return $this->_result;
     }
 
-    private function _setExtCookieProvider()
+    private function _replace($tag)
     {
-        array_push($this->_result, "Ext.state.Manager.setProvider(new Ext.state.CookieProvider());");
-    }
-
-    private function _getTop()
-    {
-        array_push($this->_result, "Ext.onReady(function(){");
-        array_push($this->_result, "Ext.QuickTips.init();");
-    }
-
-    private function _setMsgTarget($target)
-    {
-        array_push($this->_result, "Ext.form.Field.prototype.msgTarget = '".$target."';");
-    }
-
-    private function _setContentTag()
-    {
-        array_push($this->_result, '|CONTENT|');
-    }
-
-    private function _getBottom()
-    {
-        array_push($this->_result, "});");
+        $template = file('jscode/init.template.js');
+        foreach($template as $line)
+        {
+            $this->_result[] = str_replace($tag, self::$$tag, $line);
+        }
     }
 
     public static function setInit($imageUrl = '/', $msgTarget = 'side')

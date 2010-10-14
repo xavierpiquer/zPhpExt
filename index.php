@@ -47,6 +47,8 @@ krumo($ui);
 
 //$xmlObject = new ObjectToXML($ui);
 
+\zPhpExt\userInterfaceRender::$imageUrl = 'hola';
+\zPhpExt\userInterfaceRender::$msgTarget = 'adios';
 $resultado = \zPhpExt\userInterfaceRender::render($ui);
 
 krumo($resultado);
