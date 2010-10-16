@@ -21,44 +21,33 @@ namespace zPhpExt;
 class userInterfaceRender
 {
     /**
-     * Private var. stores result javascript
+     * Private var. store result javascript after parsing main object
      * @access private
      * @var array
      */
-    private $_result = array();
+    private $_content = array();
 
+    /**
+     * Public var. define Ext image
+     * @access public
+     * @var string
+     */
     public static $imageUrl = '/';
 
+    /**
+     * Public var. define target of Ext messages
+     * @access public
+     * @var string
+     */
     public static $msgTarget = 'side';
     
-    /**
-     * Get the object and assign it to a private property
-     * @param string $sentence
-     * @return bool|true false
-     */
-    public function  __construct($uiObject = null)
-    {
-        $this->_initialize();
-        $this->_parseObject($uiObject);
-
-        return $this->_result;
-    }
-
-    private function _initialize()
-    {
-        $jsCodeInit = \zPhpExt\templates\init::setInit(self::$imageUrl, self::$msgTarget);
-        foreach($jsCodeInit as $jsCode)
-        {
-            $this->_addSentence($jsCode);
-        }
-    }
-
     /**
      * Parse userInterface object and builds final text
      * @return bool|true false
      */
     private function _parseObject($uiObject)
     {
+        // Bucle por objeto
         switch ($uiObject->itemType)
         {
             case 'viewport':
@@ -76,17 +65,16 @@ class userInterfaceRender
             case 'tree':
 
             break;
-        }        
-    }
+        }
 
-    /**
-     * Add new sentences to final text result
-     * @param string $sentence
-     * @return bool|true false
-     */
-    private function _addSentence($sentence)
-    {
-        array_push($this->_result, $sentence);
+        $jsCode =
+            \zPhpExt\templates\init::setInit(
+                self::$imageUrl,
+                self::$msgTarget,
+                $this->_content
+        );
+
+        return $jsCode;
     }
 
     /**
@@ -96,9 +84,9 @@ class userInterfaceRender
      */
     public static function render(userInterface $ui)
     {
-        $instance = new userInterfaceRender($ui);
+        $renderization = new userInterfaceRender();
+        $result = $renderization->_parseObject($ui);
 
-        return $instance->_result;
- 
+        return $result;
     }
 }

@@ -19,36 +19,46 @@ namespace zPhpExt\templates;
 
 class init
 {
-    private $_match = array('|IMAGE_URL|', '|MSGTARGET|');
+    //private $_match = array('IMAGE_URL', 'MSGTARGET');
     private $_result = array();
-    public static $IMAGE_URL = null;
-    public static $MSGTARGET = null;
+    /*public static $IMAGE_URL = null;
+    public static $MSGTARGET = null;*/
 
-    public function __construct()
+    private function __construct($paramsArray)
     {
-        array_walk($this->_match, $this->_replace);
+        $templateLines = file('templates/jscode/init.template.js');
+        foreach($templateLines as $line)
+        {
+            $this->_result[] = $this->_replace($line, $paramsArray);
+        }
 
         return $this->_result;
     }
 
-    private function _replace($tag)
+    private function _replace($line, $paramsArray)
     {
-        $template = file('jscode/init.template.js');
-        foreach($template as $line)
+        $first = stripos($line, '<zPhpExt>');
+        $last = stripos($line, '</zPhpExt>');
+        if($first !== false && $last !== false)
         {
-            $this->_result[] = str_replace($tag, self::$$tag, $line);
+            $first = $first + 9;
+            $length = $last - $first;
+            $value = substr($line, $first, $length);
+            $line = substr_replace($line, $paramsArray[$value], $first - 9, $length+19);
+            $this->_replace($line, $paramsArray);
         }
+
+       return($line);
     }
 
-    public static function setInit($imageUrl = '/', $msgTarget = 'side')
+    public static function setInit($imageUrl = '/', $msgTarget = 'side', $content = null)
     {
-        $instance = new init();
-        $instance->_setExtImageUrl($imageUrl);
-        $instance->_setExtCookieProvider();
-        $instance->_getTop();
-        $instance->_setMsgTarget($msgTarget);
-        $instance->_setContentTag();
-        $instance->_getBottom();
+        $paramsArray = array(
+            'IMAGE_URL' =>  $imageUrl,
+            'MSGTARGET' =>  $msgTarget,
+            'CONTENT'   =>  $content);
+        
+        $instance = new init($paramsArray);
         
         return $instance->_result;
     }

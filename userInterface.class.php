@@ -223,5 +223,12 @@ class userInterface extends singletonModel
         return $this->regions['west'];
     }
 
-    
+    public function render($imageUrl, $msgTarget)
+    {
+        \zPhpExt\userInterfaceRender::$imageUrl = $imageUrl;
+        \zPhpExt\userInterfaceRender::$msgTarget = $msgTarget;
+        $result = \zPhpExt\userInterfaceRender::render($this);
+
+        return $result;
+    }
 }
