@@ -30,11 +30,13 @@ krumo($ui->getAttributes());
 $region = new \zPhpExt\userInterfaceRegion('a2');
 
 $panel = new \zPhpExt\panel();
+$panel->setAttributeHeight('200');
 $region->addItem($panel);
 
 $region2 = new \zPhpExt\userInterfaceRegion('p2');
 $region2->setAttributeHeight(200);
 $region2->setAttributeWidth(200);
+$region2->addItem($panel);
 //krumo($region2->getAttributes());
 
 $grid = new \zPhpExt\grid();

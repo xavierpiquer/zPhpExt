@@ -27,5 +27,15 @@ class grid extends panel
      */
     public $itemType = 'grid';
 
-    
+    /**
+     * Public var. store datastores
+     * @access public
+     * @var array
+     */
+    public $datastores = array();
+
+    public function addDataStore($datastore)
+    {
+        $this->datastores[] = $datastore;
+    }
 }
