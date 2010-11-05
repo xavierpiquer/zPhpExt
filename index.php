@@ -2,6 +2,7 @@
 
 include("/var/www/krumo/class.krumo.php");
 
+require_once("templates/main.class.php");
 require_once("templates/init.class.php");
 
 require_once("main.class.php");
@@ -12,6 +13,7 @@ require_once("userInterfaceRegion.class.php");
 require_once("panel.class.php");
 require_once("grid.class.php");
 require_once("tree.class.php");
+require_once("datastore.class.php");
 require_once("objectToXML.class.php");
 
 $ui = \zPhpExt\userInterface::getSingleton();
@@ -40,6 +42,9 @@ $region2->addItem($panel);
 //krumo($region2->getAttributes());
 
 $grid = new \zPhpExt\grid();
+$datastore = new \zPhpExt\datastore();
+
+
 $tree = new \zPhpExt\tree();
 //$region2->addItem($grid);
 //$region2->addItem($tree);

@@ -66,7 +66,7 @@ class userInterfaceRender
      */
     private function _parseObject($uiObject)
     {
-        // Bucle por objeto
+        // Object iteration
         switch ($uiObject->itemType)
         {
             case 'viewport':
@@ -87,7 +87,8 @@ class userInterfaceRender
         }
 
         $jsCode =
-            \zPhpExt\templates\init::setInit(
+            \zPhpExt\templates\init::setTemplate(
+                'init.template.js',
                 self::$imageUrl,
                 self::$msgTarget,
                 $this->_content
@@ -95,7 +96,7 @@ class userInterfaceRender
 
         return $jsCode;
     }
-
+    
     /**
      * Static access to the class. Returns javascript code.
      * @param userInterface object

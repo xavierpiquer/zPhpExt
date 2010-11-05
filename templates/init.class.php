@@ -11,54 +11,32 @@
 namespace zPhpExt\templates;
 
 /**
- * Init template class. Parse init.temlate file.
+ * Init template class. Parse init.template file.
  *
  * @package zPhpExt
  * @subpackage templates
  */
 
-class init
+class init extends main
 {
-    //private $_match = array('IMAGE_URL', 'MSGTARGET');
     private $_result = array();
-    /*public static $IMAGE_URL = null;
-    public static $MSGTARGET = null;*/
 
-    private function __construct($paramsArray)
+    private function __construct($template, $paramsArray)
     {
-        $templateLines = file('templates/jscode/init.template.js');
-        foreach($templateLines as $line)
-        {
-            $this->_result[] = $this->_replace($line, $paramsArray);
-        }
-
+        $this->_result = $this->replace($template, $paramsArray);
+        
         return $this->_result;
     }
 
-    private function _replace($line, $paramsArray)
-    {
-        $first = stripos($line, '<zPhpExt>');
-        $last = stripos($line, '</zPhpExt>');
-        if($first !== false && $last !== false)
-        {
-            $first = $first + 9;
-            $length = $last - $first;
-            $value = substr($line, $first, $length);
-            $line = substr_replace($line, $paramsArray[$value], $first - 9, $length+19);
-            $this->_replace($line, $paramsArray);
-        }
-
-       return($line);
-    }
-
-    public static function setInit($imageUrl = '/', $msgTarget = 'side', $content = null)
+    public static function setTemplate($template, $imageUrl = '/',
+        $msgTarget = 'side', $content = null)
     {
         $paramsArray = array(
             'IMAGE_URL' =>  $imageUrl,
             'MSGTARGET' =>  $msgTarget,
             'CONTENT'   =>  $content);
         
-        $instance = new init($paramsArray);
+        $instance = new init($template, $paramsArray);
         
         return $instance->_result;
     }
